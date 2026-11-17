@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Schibsted_Grotesk } from "next/font/google";
+import { Fraunces, Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
+import { SiteHeader } from "@/components/site-header";
 import { profile } from "@/lib/content";
 
 const sans = Schibsted_Grotesk({
@@ -9,12 +10,19 @@ const sans = Schibsted_Grotesk({
   display: "swap",
 });
 
+const display = Fraunces({
+  subsets: ["latin"],
+  axes: ["SOFT", "WONK"],
+  variable: "--font-display-src",
+  display: "swap",
+});
+
 const summary =
   "CS & Math at Northwestern. Serverless platforms on AWS, and RL for Byzantine fault-tolerant consensus.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(profile.site),
-  title: profile.name,
+  title: { default: profile.name, template: `%s · ${profile.name}` },
   description: summary,
   authors: [{ name: profile.name, url: profile.site }],
   creator: profile.name,
@@ -53,9 +61,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${sans.variable} font-sans`}>
-        <main>{children}</main>
+    <html lang="en" className={`${sans.variable} ${display.variable}`}>
+      <body className="flex min-h-dvh flex-col font-sans">
+        <SiteHeader />
+        <main className="flex flex-1 flex-col">{children}</main>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
