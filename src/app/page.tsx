@@ -1,5 +1,5 @@
-import { Hero } from "@/features/home/hero";
+import { Home } from "@/features/home/home";
 
-export default function Home() {
-  return <Hero />;
+export default function HomePage() {
+  return <Home />;
 }

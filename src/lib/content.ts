@@ -3,30 +3,35 @@
 export const profile = {
   name: "Eric Zhou",
   headline: "CS + Math @ Northwestern",
-  blurb:
-    "",
   location: "Troy, MI · Evanston, IL",
   email: "erichyzhou@u.northwestern.edu",
   phone: "248-250-0040",
-  site: "https://erichyzhou.vercel.app",
+  site: "https://ericzhou12.github.io",
   github: "https://github.com/ericzhou12",
   linkedin: "https://www.linkedin.com/in/erichyzhou/",
   lastfm: "https://www.last.fm/user/erichyzhou",
   resume: "/eric-zhou-resume.pdf",
-  status: "SDE Intern @ Tyler Technologies",
+  status: "Student @ Northwestern",
 };
 
-export const facts: { label: string; value: string }[] = [
-  { label: "University", value: "Northwestern University" },
-  { label: "Focus", value: "Machine Learning; Distributed Systems" },
-  { label: "Based", value: "Troy, MI / Evanston, IL" },
+export const bio: string[] = [
+  "Placeholder bio. A sentence or two about who you are, what you build, and what you're interested in right now.",
+  "A second short paragraph for anything else: what you're looking for, side interests, or what you're listening to.",
 ];
+
+export type Post = { title: string; date: string; summary: string; href: string };
+
+/** Newest first. */
+export const posts: Post[] = [];
 
 /** Light/dark pair so node tints can swap via CSS alone, with no theme read. */
 export type NodeColor = { light: string; dark: string };
 
 /** month is 1-12; the pair sorts as year * 12 + month inside a graph layer. */
 export type TimePoint = { year: number; month: number };
+
+/** tag marks the headline artifact (e.g. "Paper") and renders it emphasized. */
+export type EntryLink = { label: string; href: string; tag?: string };
 
 export type Job = {
   id: string;
@@ -49,8 +54,7 @@ export type Job = {
   points: string[];
   metrics?: { value: string; label: string }[];
   stack: string[];
-  /** primary marks the headline artifact (paper, live site) for extra emphasis. */
-  links?: { label: string; href: string; primary?: boolean }[];
+  links?: EntryLink[];
 };
 
 export const experience: Job[] = [
@@ -61,37 +65,21 @@ export const experience: Job[] = [
     org: "Tyler Technologies",
     orgUrl: "https://www.tylertech.com",
     logo: "/logos/tylertech.png",
-    period: "May 2026 — Present",
+    period: "May 2026 — Aug 2026",
     start: { year: 2026, month: 5 },
-    end: "present",
+    end: { year: 2026, month: 8 },
     color: { light: "#415390", dark: "#415390" },
-    location: "Troy, MI · On-site",
+    location: "Troy, MI",
     kind: "Internship",
     summary:
-      "Built an internal police report writing platform end to end on AWS — SPA at the edge, serverless APIs, and CDK-provisioned multi-tenant infrastructure.",
+      "Built a report-writing web app on S3, CloudFront, and Lambda REST APIs, secured by Cognito OIDC token checks.",
     points: [
-      "Built the comprehensive, end-to-end internal police report writing support platform — an SPA served from S3 behind CloudFront, calling REST APIs backed by stateless, serverless Lambda endpoints.",
-      "Formed a secure entry gateway with Cognito OIDC, parsing and validating user JWT claims server-side to act as a strict authorization firewall enforcing granular RBAC across multi-tenant report infrastructures.",
-      "Consolidated API endpoints into feature Lambdas to maximize warm starts, cutting latency during bursts of 1000+ tenant reports from the main client; deployed a flat DynamoDB key-value store to match Lambda's stateless model.",
-      "Authored modular AWS CDK (TypeScript) infrastructure stacks automating environment provisioning across Commercial and GovCloud partitions, isolating CJIS-regulated data while keeping frontend and backend at parity.",
-      "Automated CI/CD with GitHub Actions — CDK audits, unit tests, and security linting on every pull request, including multi-tenant RBAC business logic confirmation in tests.",
+      "Built report-writing web app on S3, CloudFront, and Lambda REST APIs, secured by Cognito OIDC token checks.",
+      "Grouped endpoints into feature-level Lambdas to avoid cold starts, cutting latency ~30% in tenant report surges.",
+      "Automated CI/CD with GitHub Actions, running CDK audits, security linting, and RBAC unit tests on every PR.",
     ],
-    metrics: [
-      { value: "1000+", label: "tenant reports per burst" },
-      { value: "2", label: "AWS partitions (Commercial + GovCloud)" },
-      { value: "CJIS", label: "regulated data isolation" },
-    ],
-    stack: [
-      "TypeScript",
-      "Angular",
-      "AWS CDK",
-      "Lambda",
-      "DynamoDB",
-      "Cognito / OIDC",
-      "S3",
-      "CloudFront",
-      "GitHub Actions",
-    ],
+    metrics: [{ value: "~30%", label: "latency cut in report surges" }],
+    stack: ["AWS CDK", "Lambda", "S3", "CloudFront", "Cognito / OIDC", "GitHub Actions"],
   },
   {
     id: "simons",
@@ -101,45 +89,37 @@ export const experience: Job[] = [
     orgUrl: "https://www.stonybrook.edu",
     logo: "/logos/stonybrook.jpg",
     logoFill: true,
-    period: "Jun 2025 — Jun 2026",
+    period: "Jun 2025 — Mar 2026",
     start: { year: 2025, month: 6 },
-    end: { year: 2026, month: 6 },
+    end: { year: 2026, month: 3 },
     color: { light: "#990100", dark: "#990100" },
     location: "Stony Brook, NY",
-    kind: "Research · PI: Dr. Mohammad Javad Amiri",
+    kind: "Research",
     summary:
-      "Tuned DAG-based Byzantine fault-tolerant consensus with reinforcement learning, halving end-to-end latency of the Autobahn protocol. Submitted to VLDB 2026.",
+      "Cut Autobahn BFT consensus latency 49.8% vs. default and 73.3% vs. random configs across 6 test scenarios.",
     points: [
-      "Selected as 1 of 53 fellows from 1,380 applicants (~3.8%) to the Simons Summer Research Program.",
-      "Leveraged reinforcement learning for parameter-space optimization and communication in DAG-based Byzantine fault-tolerant consensus protocols, reducing end-to-end latency of the Autobahn protocol by 49.8% vs. default and 73.3% vs. random parameter configuration across 6 scenarios with varied adversarial and normal behavior.",
-      "Designed an RL algorithm using CMAB and Thompson sampling that operates within safety and liveness constraints; tested on Google Cloud Platform with VMs as nodes across geographic regions.",
-      "Collaborated with professors at Stony Brook, the University of Pennsylvania, and City University of Hong Kong; submitted to VLDB 2026. Presented a poster and awarded a $500 stipend.",
+      "Cut Autobahn BFT consensus latency 49.8% vs. default and 73.3% vs. random configs across 6 test scenarios.",
+      "Built a Thompson-sampling CMAB tuner with safety guardrails, benchmarked on geo-distributed GCP machines.",
+      "Created and presented poster, coauthored paper to disseminate research.",
+      "Selected as one of 53 fellows from 1,380 applicants (3.8% acceptance rate).",
     ],
     metrics: [
-      { value: "49.8%", label: "latency reduction vs. default" },
-      { value: "73.3%", label: "vs. random configuration" },
+      { value: "49.8%", label: "latency cut vs. default" },
+      { value: "73.3%", label: "vs. random configs" },
       { value: "3.8%", label: "fellowship acceptance rate" },
     ],
-    stack: [
-      "Python",
-      "Rust",
-      "Reinforcement Learning",
-      "CMAB",
-      "Thompson Sampling",
-      "GCP",
-      "Distributed Systems",
-    ],
+    stack: ["BFT Consensus", "CMAB", "Thompson Sampling", "GCP"],
     links: [
       {
         label: "arXiv:2606.09120",
         href: "https://arxiv.org/abs/2606.09120",
-        primary: true,
+        tag: "Paper",
       },
     ],
   },
   {
     id: "morgan-stanley",
-    role: "Finance Academy Participant",
+    role: "Finance Academy",
     shortRole: "Finance Academy",
     org: "Morgan Stanley",
     orgUrl: "https://www.morganstanley.com",
@@ -152,13 +132,13 @@ export const experience: Job[] = [
     location: "Remote",
     kind: "Program",
     summary:
-      "One of 150 participants nationwide, taught by Institutional Securities Group analysts.",
+      "Pitched a Southwest Airlines bond issuance as lead-left bookrunner to Morgan Stanley and Southwest delegates.",
     points: [
-      "Selected as 1 of 150 participants nationwide and instructed by Institutional Securities Group analysts.",
-      "Applied analytical and problem-solving skills through assignments, case studies, and team-based finance projects.",
+      "Pitched a Southwest Airlines bond issuance as lead-left bookrunner to Morgan Stanley and Southwest delegates.",
+      "Selected as one of 150 participants nationwide; trained by Institutional Securities Group analysts.",
     ],
     metrics: [{ value: "150", label: "participants nationwide" }],
-    stack: ["Valuation", "Case Studies", "Financial Modeling"],
+    stack: ["Bond Issuance", "Capital Markets"],
   },
   {
     id: "wayne",
@@ -171,17 +151,16 @@ export const experience: Job[] = [
     start: { year: 2024, month: 5 },
     end: { year: 2025, month: 10 },
     color: { light: "#35746b", dark: "#35746b" },
-    location: "Troy, MI · Hybrid",
-    kind: "Research · PI: Dr. Shiyong Lu",
+    location: "Detroit, MI",
+    kind: "Research",
     summary:
-      "Audited 10,000+ lines of Solidity on the Sepolia testnet and helped write Longevity AI, a health-focused AI agent.",
+      "Wrote and tested Solidity smart contracts deployed to the Sepolia testnet; audited 20,000+ lines of code.",
     points: [
-      "Programmed and tested smart contracts in Solidity deployed to the Sepolia testnet; audited over 10,000 lines of code.",
-      "Managed communication between graduate-level courses CSC 8710 and CSC 4996 under Professor Shiyong Lu.",
-      "Assisted in writing and ideating Longevity AI, an AI agent centered on health.",
+      "Wrote and tested Solidity smart contracts deployed to the Sepolia testnet; audited 20,000+ lines of code.",
+      "Liaised between two graduate courses under Prof. Shiyong Lu; helped conceive Longevity AI, a health AI agent.",
     ],
-    metrics: [{ value: "10,000+", label: "lines of contract code audited" }],
-    stack: ["Solidity", "Ethereum", "Sepolia Testnet", "AI Agents"],
+    metrics: [{ value: "20,000+", label: "lines of code audited" }],
+    stack: ["Solidity", "Sepolia Testnet", "Smart Contracts", "AI Agents"],
   },
   {
     id: "boardx",
@@ -219,43 +198,25 @@ export type Project = {
   description: string;
   highlights: string[];
   tags: string[];
-  links: { label: string; href: string; primary?: boolean }[];
+  links: EntryLink[];
 };
 
 export const projects: Project[] = [
   {
-    id: "new-page",
-    title: "The New Page Project",
-    tagline: "Nonprofit platform for global book donation logistics",
-    year: "2025",
-    start: { year: 2025, month: 1 },
-    end: { year: 2025, month: 12 },
-    color: { light: "#c2620a", dark: "#e0913c" },
-    description:
-      "Solo-built and deployed the React site for a literacy nonprofit, handling outreach, SEO, and donation logistics.",
-    highlights: [
-      "Powers logistics for 20,000+ book donations reaching 680+ students worldwide",
-      "Solo-built, deployed, and maintained; iterated on real user feedback",
-    ],
-    tags: ["React", "Next.js", "Tailwind CSS", "Framer Motion", "SEO"],
-    links: [{ label: "thenewpageproject.com", href: "https://www.thenewpageproject.com" }],
-  },
-  {
     id: "aquanet",
     title: "AquaNet",
-    tagline: "Neural network for lake water quality assessment",
+    tagline: "Neural network for water quality assessment",
     year: "2025",
     start: { year: 2025, month: 1 },
     end: { year: 2025, month: 12 },
     color: { light: "#0e7490", dark: "#38b6d8" },
     description:
-      "An artificial neural network predicting water quality indicators in lakes from EPA environmental data.",
+      "Trained a neural network to predict 3 lake water-quality indicators, averaging 0.34 RMSE across 100 trials.",
     highlights: [
-      "Average RMSE of 0.3396 over 100 epochs across 3 factors on 100 trials",
-      "Preprocessing pipeline cleaning and normalizing 110,000+ environmental data points",
-      "NOAA Taking the Pulse of the Planet Award; presented at SEFMD and MSEF",
+      "Trained a neural network to predict 3 lake water-quality indicators, averaging 0.34 RMSE across 100 trials",
+      "Built a preprocessing pipeline to clean and normalize 110,000+ environmental data points",
     ],
-    tags: ["Python", "PyTorch", "pandas", "NumPy", "Matplotlib"],
+    tags: ["PyTorch", "NumPy", "pandas", "Matplotlib"],
     links: [
       {
         label: "GitHub",
@@ -282,106 +243,8 @@ export const projects: Project[] = [
   },
 ];
 
-export const honors: { title: string; detail: string; year: string }[] = [
-  {
-    title: "Regeneron Science Talent Search Scholar",
-    detail: "Top 300 nationally · Regeneron",
-    year: "2026",
-  },
-  {
-    title: "National Merit Scholar",
-    detail: "1580 SAT, 800 Math",
-    year: "2026",
-  },
-  {
-    title: "American Junior Academies of Science Fellow",
-    detail: "Gordon & Betty Moore Scholarship recipient",
-    year: "2025",
-  },
-  {
-    title: "Wharton Global Investment Competition Semifinalist",
-    detail: "Top 50 of 5,000+ teams · University of Pennsylvania",
-    year: "2025",
-  },
-  {
-    title: "NOAA Taking the Pulse of the Planet Award",
-    detail: "2nd place, Science and Engineering Fair of Metro Detroit",
-    year: "2025",
-  },
-  {
-    title: "Michigan D1 All-State Swimming — Team Captain",
-    detail: "Four consecutive years",
-    year: "2023—26",
-  },
-];
-
-export const skills: { group: string; items: string[] }[] = [
-  {
-    group: "Languages",
-    items: ["C++", "Python", "TypeScript", "Rust", "Solidity", "SQL"],
-  },
-  {
-    group: "Frontend",
-    items: ["React", "Next.js", "Angular", "Tailwind CSS"],
-  },
-  {
-    group: "Cloud & Infra",
-    items: [
-      "AWS",
-      "AWS CDK",
-      "CloudFormation",
-      "Lambda",
-      "DynamoDB",
-      "S3",
-      "CloudFront",
-      "Cognito / OIDC",
-      "IAM",
-      "GCP",
-    ],
-  },
-  {
-    group: "AI / ML",
-    items: ["PyTorch", "pandas", "NumPy", "Matplotlib", "Reinforcement Learning"],
-  },
-  {
-    group: "Tools & Practice",
-    items: ["Git", "GitHub Actions", "Docker", "Linux (WSL)", "CI/CD", "Agile"],
-  },
-];
-
-export const education = [
-  {
-    school: "Northwestern University",
-    detail: "B.S. Computer Science & Mathematics",
-    period: "Expected 2029",
-    location: "Evanston, IL",
-  },
-  {
-    school: "Lawrence Technological University",
-    detail:
-      "Dual enrollment · 4.0 GPA — Multivariable Calculus, Linear Algebra, Functional Programming, Computer Science 2",
-    period: "2026",
-    location: "Southfield, MI",
-  },
-  {
-    school: "Troy High School",
-    detail: "All-State Swim Team Captain · Computer Club President",
-    period: "2022 — 2026",
-    location: "Troy, MI",
-  },
-];
-
-export const certifications= [
-  { title: "Options 101", org: "Akuna Capital", year: "2026" },
-  {
-    title: "YC Startup School",
-    org: "Y Combinator",
-    year: "2026",
-  },
-];
-
 export const navigation = [
   { href: "/", label: "Home" },
   { href: "/experience", label: "Experience" },
-  { href: "/background", label: "Background" },
+  { href: "/blog", label: "Blog" },
 ];

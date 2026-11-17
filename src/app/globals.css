@@ -1,257 +1,144 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme inline {
   --font-sans: var(--font-sans-src), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-display-src), Georgia, "Times New Roman", serif;
-  --font-mono: var(--font-mono-src), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --color-bg: var(--bg);
-  --color-surface: var(--surface);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
-  --color-faint: var(--faint);
   --color-line: var(--line);
-  --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
 }
 
 :root {
-  --bg: #faf8f4;
-  --surface: #ffffff;
-  --fg: #16171d;
-  --muted: #545a6b;
-  --faint: #8a8f9e;
-  --line: #e6e3dd;
-  --accent: #4e2a84;
-  --accent-soft: #f0ebf8;
+  color-scheme: light dark;
+  --bg: #fdfdfc;
+  --fg: #1a1a1a;
+  --muted: #6f6f6f;
+  --line: #d4d4d1;
+  --sea: #bccbd7;
 }
 
-.dark {
-  --bg: #161413;
-  --surface: #201d1c;
-  --fg: #efedec;
-  --muted: #a4a2a8;
-  --faint: #7d7a83;
-  --line: #302c2b;
-  --accent: #b49aef;
-  --accent-soft: #272130;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --fg: #ececec;
+    --muted: #9a9a9a;
+    --line: #444444;
+    --sea: #34495b;
+  }
+}
+
+.ascii {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.05;
+  color: var(--sea);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Shifting by exactly one pattern width (in ch) makes the loop seamless. */
+@keyframes wave-drift {
+  from {
+    transform: translateX(var(--shift, -8ch));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.wave {
+  width: max-content;
+  animation: wave-drift 5s linear infinite;
+}
+
+.wave-slow {
+  --shift: -12ch;
+  animation-duration: 14s;
+}
+
+@keyframes swim-right {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100vw);
+  }
+}
+
+@keyframes swim-left {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.swim {
+  position: absolute;
+  left: 0;
+  animation: swim-right linear infinite;
+}
+
+.swim-left {
+  animation-name: swim-left;
+}
+
+@keyframes weed-sway {
+  from {
+    transform: skewX(-7deg);
+  }
+  to {
+    transform: skewX(7deg);
+  }
+}
+
+.weed {
+  position: absolute;
+  bottom: 1.05em;
+  transform-origin: bottom;
+  animation: weed-sway 4s ease-in-out infinite alternate;
+}
+
+/* Paused, not removed: negative delays leave everything frozen mid-scene. */
+@media (prefers-reduced-motion: reduce) {
+  .wave,
+  .swim,
+  .weed {
+    animation-play-state: paused;
+  }
 }
 
 @layer base {
-  * {
-    border-color: var(--line);
-  }
-
-  html {
-    scroll-behavior: smooth;
-    /* Offset anchor jumps so the sticky header doesn't cover headings. */
-    scroll-padding-top: 5.5rem;
-  }
-
   body {
-    /* `clip`, not `hidden`: keeps the unclipped now-playing glow from widening
-       the page without turning the body into a scroll container (which would
-       break the sticky header). */
-    overflow-x: clip;
     background-color: var(--bg);
     color: var(--fg);
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
+  a {
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s;
+  }
+
+  a:hover {
+    text-decoration-color: currentColor;
+  }
+
   ::selection {
-    background-color: var(--accent);
+    background-color: var(--fg);
     color: var(--bg);
   }
 
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--fg);
     outline-offset: 3px;
     border-radius: 2px;
-  }
-
-  /* Tailwind v4 drops the UA pointer cursor on buttons; put it back. */
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  summary,
-  label[for] {
-    cursor: pointer;
-  }
-}
-
-@utility label-caps {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--faint);
-}
-
-/* Display headings: a single-weight serif, so scale and tracking do the work. */
-@utility heading-display {
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.01em;
-}
-
-/* Per-entry graph tint. Both hexes ride inline as custom properties so the
-   node colour swaps with the theme without reading it in JS. */
-.node-tint {
-  color: var(--c);
-}
-
-.dark .node-tint {
-  color: var(--c-dk);
-}
-
-/* Marching dashes on the open-ended tail of anything still running. */
-@keyframes tail-march {
-  to {
-    stroke-dashoffset: -20;
-  }
-}
-
-.tail-march {
-  animation: tail-march 1.4s linear infinite;
-}
-
-/* Purple glow behind the status line while a track is playing. Blobs drift and
-   morph on independent timings so the field never visibly loops. */
-.blob-field {
-  --glow-opacity: 0.45;
-  opacity: 0;
-  scale: 0.7;
-  animation:
-    blob-in 1.6s ease 200ms forwards,
-    blob-breathe 7s ease-in-out 1.8s infinite;
-}
-
-.dark .blob-field {
-  --glow-opacity: 0.26;
-}
-
-.blob {
-  position: absolute;
-  translate: -50% -50%;
-  border-radius: var(--shape1);
-  filter: blur(48px) saturate(0.9);
-  animation:
-    blob-drift var(--drift-duration) ease-in-out infinite alternate,
-    blob-morph var(--morph-duration) ease-in-out infinite alternate;
-  animation-delay: var(--drift-delay), var(--morph-delay);
-}
-
-@keyframes blob-in {
-  to {
-    opacity: var(--glow-opacity);
-    scale: 1;
-  }
-}
-
-@keyframes blob-breathe {
-  0%,
-  100% {
-    scale: 1;
-  }
-  50% {
-    scale: 1.09;
-  }
-}
-
-@keyframes blob-morph {
-  0% {
-    border-radius: var(--shape1);
-  }
-  33% {
-    border-radius: var(--shape2);
-  }
-  66% {
-    border-radius: var(--shape3);
-  }
-  100% {
-    border-radius: var(--shape4);
-  }
-}
-
-@keyframes blob-drift {
-  0% {
-    translate: -50% -50%;
-  }
-  33% {
-    translate: calc(-50% + var(--dx1)) calc(-50% + var(--dy1));
-  }
-  66% {
-    translate: calc(-50% + var(--dx2)) calc(-50% + var(--dy2));
-  }
-  100% {
-    translate: calc(-50% + var(--dx3)) calc(-50% + var(--dy3));
-  }
-}
-
-/* Equalizer bars for the now-playing widget; each bar offsets its own delay. */
-@keyframes eq-bounce {
-  0%,
-  100% {
-    transform: scaleY(0.3);
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-
-.eq-bar {
-  transform-origin: bottom;
-  animation: eq-bounce 0.9s ease-in-out infinite;
-}
-
-/* Section reveal — driven by IntersectionObserver in <Reveal />. */
-.reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.reveal[data-shown="true"] {
-  opacity: 1;
-  transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
-  .blob-field {
-    animation: none;
-    opacity: var(--glow-opacity);
-    scale: 1;
-  }
-
-  .blob {
-    animation: none;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-@media print {
-  .no-print {
-    display: none !important;
   }
 }

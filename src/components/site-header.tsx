@@ -26,15 +26,7 @@ export function SiteHeader() {
           : "border-transparent bg-transparent",
       )}
     >
-      <div className={cn(shell, "flex h-16 items-center justify-between gap-4")}>
-        <Link
-          href="/"
-          className="heading-display text-lg italic tracking-tight text-fg"
-        >
-          eric zhou
-          <span className="not-italic text-accent">.</span>
-        </Link>
-
+      <div className={cn(shell, "flex h-16 items-center justify-end gap-4")}>
         {/* Right padding clears the theme toggle pinned to the viewport corner. */}
         <nav aria-label="Pages" className="pr-9 sm:pr-7 lg:pr-0">
           <ul className="flex items-center gap-1">

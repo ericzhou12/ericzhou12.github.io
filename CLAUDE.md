@@ -1,15 +1,14 @@
 on a new session, do not fully read the codebase; here is the summary:
 
-portfolio is broken into 3 pages.
-home: status line (swaps to last.fm now-playing w/ purple blob glow while listening), a mini graph of the neural network for work exp, and also some other data
-experience: has interactable neural network for work exp and list view
-background: recognition (honors, education, certs) and skills, just text.
+portfolio is a single static page: name, bio, links, experience, projects, and writing (shown only when the posts array is non-empty).
+deployed to github pages as a next static export (.github/workflows/deploy.yml); no server routes.
 
-code is organized by feature:
-src/features/{home,experience,background,music}/ — components + their own lib files, colocated
-src/components/ — shared chrome (header, footer, social rail, theme) and primitives (reveal, section)
-src/lib/ — content.ts (all site copy, single source of truth), utils.ts
-src/app/ — routes only; globals.css holds all css incl. feature-specific keyframes
+src/features/home/home.tsx — the whole page
+src/features/ocean/ocean.tsx — ascii ocean background (waves under the header, swimming fish + hammerhead, seafloor with seaweed and tripod fish); css-only animation, keyframes in globals.css
+src/lib/content.ts — all site copy, single source of truth
+src/app/ — layout, page, globals.css (all css; theme follows system via prefers-color-scheme)
+
+plain hrefs to files in /public need the NEXT_PUBLIC_BASE_PATH prefix (see home.tsx).
 
 minimize comments, comment lines only on logically complex or complicated changes.
 

@@ -48,8 +48,8 @@ export function normalize(data: LastfmResponse): NowPlaying {
 
   // Last.fm serves a grey star placeholder (always this asset id) instead of
   // omitting art, so treat it the same as no art at all.
-  const raw_art = track.image?.find((i) => i.size === "medium")?.["#text"];
-  const art = raw_art?.includes(PLACEHOLDER_ART) ? undefined : raw_art;
+  const rawArt = track.image?.find((i) => i.size === "medium")?.["#text"];
+  const art = rawArt?.includes(PLACEHOLDER_ART) ? undefined : rawArt;
   const uts = track.date?.uts;
 
   return {

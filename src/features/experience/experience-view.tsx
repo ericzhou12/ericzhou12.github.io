@@ -45,10 +45,9 @@ function ViewToggle({
 }
 
 /**
- * Swaps between the neural-net graph and the original cards. Both trees stay in
- * the DOM and the desktop/mobile default is pure CSS (graph on md+, list below),
- * so the static HTML — and therefore print, SEO, and screen readers — is intact
- * regardless of which view is showing.
+ * Swaps between the graph and the list. Both trees stay in the DOM and the
+ * default is pure CSS (graph on md+, list below), so print, SEO, and screen
+ * readers always get the full list.
  */
 export function ExperienceView({ children }: { children: React.ReactNode }) {
   const [view, setView] = useState<View>("graph");
@@ -73,16 +72,10 @@ export function ExperienceView({ children }: { children: React.ReactNode }) {
           className="flex flex-col pb-5 pt-4 sm:pt-6 md:h-[calc(100dvh-8.5rem)]"
         >
           <header className="flex items-end justify-between gap-4">
-            <div>
-              <span className="label-caps">01 / Experience</span>
-              <h2
-                id="experience-graph-title"
-                className="heading-display mt-1.5 text-3xl sm:text-4xl"
-              >
-                <span className="text-fg">neural net</span>
-                <span className="text-accent">work experience</span>
-              </h2>
-            </div>
+            <h2 id="experience-graph-title" className="heading-display text-3xl sm:text-4xl">
+              <span className="text-fg">neural net</span>
+              <span className="text-muted">work experience</span>
+            </h2>
             <ViewToggle view={view} onChange={choose} />
           </header>
 
@@ -97,7 +90,7 @@ export function ExperienceView({ children }: { children: React.ReactNode }) {
         <ViewToggle
           view={view}
           onChange={choose}
-          className="absolute right-0 top-11 z-10 sm:top-15"
+          className="absolute right-0 top-[3.375rem] z-10 sm:top-[4.625rem]"
         />
         {children}
       </div>

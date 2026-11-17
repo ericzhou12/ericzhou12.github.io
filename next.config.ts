@@ -1,19 +1,14 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "lastfm.freetls.fastly.net" },
-    ],
-  },
+// Set by the Pages workflow; empty locally and for the ericzhou12.github.io repo.
+const basePath = process.env.PAGES_BASE_PATH ?? "";
 
-  // Old routes; keep any existing links and indexed URLs alive.
-  async redirects() {
-    return [
-      { source: "/work", destination: "/experience", permanent: true },
-      { source: "/honors", destination: "/background", permanent: true },
-    ];
-  },
+const nextConfig: NextConfig = {
+  output: "export",
+  basePath,
+  trailingSlash: true,
+  images: { unoptimized: true },
+  env: { NEXT_PUBLIC_BASE_PATH: basePath },
 };
 
 export default nextConfig;
