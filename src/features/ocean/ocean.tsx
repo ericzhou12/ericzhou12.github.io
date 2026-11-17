@@ -28,7 +28,6 @@ const TRIPOD_FISH = art(
 
 const FISH_RIGHT = "#.:#######:.";
 const MINNOW_RIGHT = "#.:###:.";
-const MINNOW_LEFT = ".:###:.#";
 
 type Swimmer = { art: string; top: string; secs: number; delay: number; left?: boolean };
 
@@ -37,7 +36,6 @@ const swimmers: Swimmer[] = [
   { art: MINNOW_RIGHT, top: "10%", secs: 42, delay: -5 },
   { art: HAMMERHEAD, top: "36%", secs: 80, delay: -25, left: true },
   { art: FISH_RIGHT, top: "58%", secs: 54, delay: -38 },
-  { art: MINNOW_LEFT, top: "76%", secs: 46, delay: -14, left: true },
 ];
 
 const weeds = [
@@ -62,7 +60,7 @@ export function Waves() {
   );
 }
 
-export function Sealife() {
+function Sealife() {
   return (
     <div aria-hidden className="ascii absolute inset-0">
       {swimmers.map(({ art, top, secs, delay, left }) => (
@@ -78,7 +76,53 @@ export function Sealife() {
   );
 }
 
-export function Seafloor() {
+// Top-down water for the projects page: sparse ripple rows sliding past each other.
+const ripples = [
+  { row: "  ~~        ~      ~~~   ", top: "6%", secs: 34 },
+  { row: "~       ~~~       ~     ", top: "18%", secs: 46, reverse: true },
+  { row: "     ~~      ~         ~", top: "31%", secs: 38 },
+  { row: " ~         ~~~     ~~   ", top: "44%", secs: 52, reverse: true },
+  { row: "   ~~~   ~          ~   ", top: "57%", secs: 40 },
+  { row: "~        ~~      ~      ", top: "70%", secs: 48, reverse: true },
+  { row: "    ~      ~~~        ~~", top: "83%", secs: 36 },
+  { row: " ~~      ~       ~~     ", top: "94%", secs: 50, reverse: true },
+];
+
+export function Underwater({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative flex flex-1 flex-col overflow-hidden">
+      <Sealife />
+      <div className="relative flex flex-1 flex-col">{children}</div>
+      <Seafloor />
+    </div>
+  );
+}
+
+export function Surface({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative flex flex-1 flex-col overflow-hidden">
+      <div aria-hidden className="ascii absolute inset-0">
+        {ripples.map(({ row, top, secs, reverse }) => (
+          <pre
+            key={top}
+            className="wave absolute left-0"
+            style={{
+              top,
+              ["--shift" as string]: "-24ch",
+              animationDuration: `${secs}s`,
+              animationDirection: reverse ? "reverse" : undefined,
+            }}
+          >
+            {row.repeat(30)}
+          </pre>
+        ))}
+      </div>
+      <div className="relative flex flex-1 flex-col">{children}</div>
+    </div>
+  );
+}
+
+function Seafloor() {
   return (
     <div aria-hidden className="ascii relative mt-16 h-44 overflow-hidden">
       {weeds.map(({ left, height }, i) => (
