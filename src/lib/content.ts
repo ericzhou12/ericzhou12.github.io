@@ -242,9 +242,3 @@ export const projects: Project[] = [
     links: [{ label: "GitHub", href: "https://github.com/ericzhou12/WGHSIC" }],
   },
 ];
-
-export const navigation = [
-  { href: "/", label: "Home" },
-  { href: "/experience", label: "Experience" },
-  { href: "/blog", label: "Blog" },
-];
