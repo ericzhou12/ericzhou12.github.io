@@ -2,6 +2,7 @@
 
 @theme inline {
   --font-sans: var(--font-sans-src), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display-src), Georgia, "Times New Roman", serif;
 
   --color-bg: var(--bg);
   --color-fg: var(--fg);
@@ -16,6 +17,7 @@
   --muted: #6f6f6f;
   --line: #d4d4d1;
   --sea: #bccbd7;
+  --boat: #b99c7b;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,6 +27,7 @@
     --muted: #9a9a9a;
     --line: #444444;
     --sea: #34495b;
+    --boat: #a08768;
   }
 }
 
@@ -101,12 +104,105 @@
   animation: weed-sway 4s ease-in-out infinite alternate;
 }
 
+.title {
+  font-family: var(--font-display-src), Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+
+.boat {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.05;
+  color: var(--boat);
+  transition: color 0.15s;
+}
+
+.group:hover .boat,
+.group:focus-visible .boat {
+  color: var(--fg);
+}
+
+@keyframes boat-drift {
+  from {
+    transform: translateY(-3px) rotate(-2deg);
+  }
+  to {
+    transform: translateY(3px) rotate(2deg);
+  }
+}
+
+/* Seen from above, a bob reads as the hull dipping away, so it shrinks a little. */
+@keyframes boat-bob {
+  0% {
+    transform: none;
+  }
+  25% {
+    transform: translateY(4px) rotate(-3deg) scale(0.93);
+  }
+  55% {
+    transform: translateY(-3px) rotate(2deg) scale(1.03);
+  }
+  80% {
+    transform: translateY(1px) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(-3px) rotate(-2deg);
+  }
+}
+
+.boat-drift {
+  animation: boat-drift 6s ease-in-out infinite alternate;
+}
+
+/* Ends on the drift's first frame so the idle rocking picks up without a jump. */
+.boat-bob {
+  animation:
+    boat-bob 0.7s ease-out,
+    boat-drift 6s ease-in-out 0.7s infinite alternate;
+}
+
+@keyframes ripple {
+  from {
+    opacity: 0.7;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+.ripple,
+.ripple::after {
+  position: absolute;
+  inset: -40% -8%;
+  border: 1px solid var(--sea);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: ripple 0.9s ease-out;
+}
+
+.ripple::after {
+  content: "";
+  inset: 0;
+  animation-delay: 0.18s;
+}
+
 /* Paused, not removed: negative delays leave everything frozen mid-scene. */
 @media (prefers-reduced-motion: reduce) {
   .wave,
   .swim,
   .weed {
     animation-play-state: paused;
+  }
+
+  .boat-drift,
+  .boat-bob,
+  .ripple,
+  .ripple::after {
+    animation: none;
   }
 }
 
