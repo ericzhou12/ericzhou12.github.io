@@ -5,8 +5,8 @@ deployed to github pages as a next static export (.github/workflows/deploy.yml);
 
 src/components/ — site-header (sticky nav, ascii waves as its bottom border), nav-links (client, active link), page (title + column wrapper)
 src/features/{home,about,writing,projects}/ — one component per page
-src/features/projects/fleet.tsx — projects as top-down ascii boats; click bobs + ripples and shows details (client)
-src/features/ocean/ocean.tsx — ascii ocean background (waves, swimming fish + hammerhead, seafloor with seaweed and tripod fish); css-only animation, keyframes in globals.css
+src/features/projects/ — fleet (client; top-down ascii boats, click bobs + ripples and slides the boats into a left rail), project-view (plain viewer shown beside them, no route change)
+src/features/ocean/ocean.tsx — ascii ocean background (waves, swimming fish + hammerhead, seafloor with seaweed and tripod fish); css-only animation, keyframes in globals.css; sea-clock.tsx ties fish positions to the wall clock so they persist across loads
 src/lib/content.ts — all site copy, single source of truth
 src/app/ — routes only; each page wraps its feature in Underwater (fish + seafloor) or Surface (top-down ripples, projects only); globals.css (all css; theme follows system via prefers-color-scheme)
 
