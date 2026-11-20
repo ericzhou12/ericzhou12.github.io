@@ -82,6 +82,7 @@
   position: absolute;
   left: 0;
   animation: swim-right linear infinite;
+  animation-delay: calc(var(--delay, 0s) - var(--now, 0s));
 }
 
 .swim-left {
@@ -108,6 +109,43 @@
   font-family: var(--font-display-src), Georgia, "Times New Roman", serif;
   font-weight: 400;
   font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+
+/* Boats fill the row until one is picked, then slide into a left rail as the
+   viewer's column grows. Both states use fr tracks so the change can animate. */
+.fleet {
+  display: grid;
+  row-gap: 3rem;
+}
+
+@media (min-width: 48rem) {
+  .fleet {
+    grid-template-columns: 1fr 0fr;
+    transition: grid-template-columns 0.5s ease;
+  }
+
+  .fleet-open {
+    grid-template-columns: 1fr 2.4fr;
+  }
+
+  .fleet > :last-child {
+    overflow: hidden;
+  }
+
+  .fleet-open > :last-child {
+    padding-left: 2.5rem;
+  }
+}
+
+@keyframes viewer-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+
+.viewer-in {
+  animation: viewer-in 0.4s ease-out 0.15s both;
 }
 
 .boat {
@@ -198,6 +236,11 @@
     animation-play-state: paused;
   }
 
+  .fleet {
+    transition: none;
+  }
+
+  .viewer-in,
   .boat-drift,
   .boat-bob,
   .ripple,

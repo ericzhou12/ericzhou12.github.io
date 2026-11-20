@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ProjectView } from "@/features/projects/project-view";
 import type { Project } from "@/lib/content";
 
 // Top-down hull: bow on the left, flat stern on the right.
@@ -17,12 +18,12 @@ export function Fleet({ projects }: { projects: Project[] }) {
   }
 
   return (
-    <div className="grid gap-12 md:grid-cols-2">
-      <ul className="flex flex-col gap-12">
+    <div className={current ? "fleet fleet-open" : "fleet"}>
+      <ul className="flex flex-wrap content-start gap-x-16 gap-y-14">
         {projects.map((project, i) => {
           const active = project.id === selected;
           return (
-            <li key={project.id} className="even:ml-16">
+            <li key={project.id}>
               <button
                 type="button"
                 aria-expanded={active}
@@ -38,7 +39,11 @@ export function Fleet({ projects }: { projects: Project[] }) {
                     key={active ? splash : 0}
                     aria-hidden
                     className={`boat ${active ? "boat-bob" : "boat-drift"}`}
-                    style={active ? undefined : { animationDelay: `${-i * 1.7}s`, animationDuration: `${5 + (i % 3)}s` }}
+                    style={
+                      active
+                        ? undefined
+                        : { animationDelay: `${-i * 1.7}s`, animationDuration: `${5 + (i % 3)}s` }
+                    }
                   >
                     {BOAT}
                   </pre>
@@ -51,22 +56,9 @@ export function Fleet({ projects }: { projects: Project[] }) {
         })}
       </ul>
 
-      <div aria-live="polite" className="min-h-24 md:pt-2">
+      <div aria-live="polite" className="min-w-0">
         {current ? (
-          <>
-            <p>{current.description}</p>
-            <p className="mt-2 font-mono text-sm text-muted">
-              {current.year}
-              {current.links.map((link) => (
-                <span key={link.href}>
-                  {" · "}
-                  <a href={link.href} target="_blank" rel="noopener noreferrer">
-                    {link.label}
-                  </a>
-                </span>
-              ))}
-            </p>
-          </>
+          <ProjectView key={current.id} project={current} onClose={() => setSelected(null)} />
         ) : null}
       </div>
     </div>

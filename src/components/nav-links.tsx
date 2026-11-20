@@ -11,7 +11,7 @@ export function NavLinks() {
   return (
     <ul className="flex flex-wrap gap-x-6 gap-y-1 font-mono text-sm">
       {navigation.map(({ href, label }) => {
-        const active = pathname === href;
+        const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
         return (
           <li key={href}>
             <Link

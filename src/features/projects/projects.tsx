@@ -4,7 +4,7 @@ import { projects } from "@/lib/content";
 
 export function Projects() {
   return (
-    <Page title="Projects" wide>
+    <Page wide>
       <Fleet projects={projects} />
     </Page>
   );
