@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Fraunces, Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
-import { SeaClockRoot, seaClockScript } from "@/features/ocean/sea-clock";
+import { SeaClockRoot } from "@/features/ocean/sea-clock";
+import { bootScript } from "@/lib/boot-script";
 import { profile } from "@/lib/content";
 
 const sans = Schibsted_Grotesk({
@@ -64,7 +65,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${sans.variable} ${display.variable}`} suppressHydrationWarning>
       <body className="flex min-h-dvh flex-col font-sans">
-        <script dangerouslySetInnerHTML={{ __html: seaClockScript }} />
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
         <SeaClockRoot />
         <SiteHeader />
         <main className="flex flex-1 flex-col">{children}</main>
