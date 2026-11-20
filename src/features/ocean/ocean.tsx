@@ -1,4 +1,6 @@
-// Pure CSS animation on static text: no client JS, transforms only.
+// CSS animation on static text, transforms only; the one bit of JS is the clock sync.
+
+import { SeaClock } from "@/features/ocean/sea-clock";
 
 const WAVE = "-._.-~'~".repeat(80);
 const RIPPLE = "~   ~~  ~ ~ ".repeat(60);
@@ -63,11 +65,12 @@ export function Waves() {
 function Sealife() {
   return (
     <div aria-hidden className="ascii absolute inset-0">
+      <SeaClock />
       {swimmers.map(({ art, top, secs, delay, left }) => (
         <pre
           key={top}
           className={left ? "swim swim-left" : "swim"}
-          style={{ top, animationDuration: `${secs}s`, animationDelay: `${delay}s` }}
+          style={{ top, animationDuration: `${secs}s`, ["--delay" as string]: `${delay}s` }}
         >
           {art}
         </pre>
