@@ -18,7 +18,7 @@ export const navigation = [
 ];
 
 export const about: string[] = [
-  "I study computer science and math at Northwestern. I'm interested in making AI safe and not ending the world. Most of my work so far has been in distributed systems and machine learning.",
+  "I study computer science and math at Northwestern. I'm interested in solving hard problems, namely making AI safe. I've done work in distributed systems and machine learning.",
   "Feel free to reach out at my email! I'm always open to feedback and new ideas. ",
 ];
 
