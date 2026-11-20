@@ -18,8 +18,8 @@ export const navigation = [
 ];
 
 export const about: string[] = [
-  "I'm a computer science and math student at Northwestern. Most of my work so far has been in distributed systems and machine learning.",
-  "Last summer I interned at Tyler Technologies, building a serverless report-writing app on AWS. Before that I was a Simons Research Fellow at Stony Brook, where I used bandit algorithms to tune Byzantine fault-tolerant consensus and coauthored a paper on it, and a blockchain research assistant at Wayne State.",
+  "I study computer science and math at Northwestern. I'm interested in making AI safe and not ending the world. Most of my work so far has been in distributed systems and machine learning.",
+  "Feel free to reach out at my email! I'm always open to feedback and new ideas. ",
 ];
 
 export type Post = { title: string; date: string; summary: string; href: string };
@@ -37,6 +37,17 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    id: "neuron-quadrants",
+    title: "Neuron Quadrant Interventions",
+    year: "2026",
+    description:
+      "Tests whether Q3 neuron firings control reasoning length in small dense models, following up Goodfire's \"Neurons as an Interpretable Basis\". On Qwen3-1.7B, scaling the Q3 leaks moves thinking length from about 2.1x to 0.4x of normal. Work in progress; results are preliminary.",
+    tags: ["Python", "Interpretability", "Qwen3"],
+    links: [
+      { label: "GitHub", href: "https://github.com/ericzhou12/neuron-quadrant-interventions" },
+    ],
+  },
   {
     id: "aquanet",
     title: "AquaNet",
