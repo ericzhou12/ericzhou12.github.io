@@ -281,6 +281,136 @@
   animation-delay: 0.18s;
 }
 
+.post-body > * + * {
+  margin-top: 1.25rem;
+}
+
+.post-body h2 {
+  margin-top: 3rem;
+  font-family: var(--font-display-src), Georgia, "Times New Roman", serif;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+
+.post-body h3 {
+  margin-top: 2.25rem;
+  font-weight: 600;
+}
+
+.post-body ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+.post-body li + li {
+  margin-top: 0.75rem;
+}
+
+.post-body figure {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.post-body figure img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+}
+
+.post-body figcaption,
+.post-note {
+  margin-top: 0.625rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.post-table {
+  overflow-x: auto;
+}
+
+.post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.post-body th,
+.post-body td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.post-body th {
+  font-weight: 600;
+}
+
+.box-scene {
+  display: block;
+  width: 100%;
+  max-width: 26rem;
+  margin: 3rem auto 0;
+  overflow: visible;
+}
+
+.box-wall,
+.box-floor {
+  fill: var(--sea);
+  fill-opacity: 0.22;
+  stroke: var(--muted);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  transition: fill-opacity 0.6s;
+}
+
+.box-floor {
+  fill-opacity: 0.1;
+}
+
+/* A wall that has been walked through was never really there. */
+.box-wall-open {
+  fill-opacity: 0.06;
+  stroke-dasharray: 4 5;
+}
+
+.box-figure {
+  cursor: pointer;
+  fill: var(--fg);
+  stroke: var(--fg);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  transition: transform linear;
+  outline-offset: 4px;
+}
+
+.box-figure-gone {
+  cursor: default;
+}
+
+.box-limb {
+  transform-box: fill-box;
+  transform-origin: top center;
+}
+
+@keyframes limb-swing {
+  from {
+    transform: rotate(-24deg);
+  }
+  to {
+    transform: rotate(24deg);
+  }
+}
+
+.box-figure-walking .box-limb {
+  animation: limb-swing 0.3s ease-in-out infinite alternate;
+}
+
+.box-figure-walking .box-limb-b {
+  animation-direction: alternate-reverse;
+}
+
 /* Paused, not removed: negative delays leave everything frozen mid-scene. */
 @media (prefers-reduced-motion: reduce) {
   .wave,
@@ -293,6 +423,7 @@
     transition: none;
   }
 
+  .box-figure-walking .box-limb,
   .viewer-in,
   .boat-drift,
   .boat-bob,
