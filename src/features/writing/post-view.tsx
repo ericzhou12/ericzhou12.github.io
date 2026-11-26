@@ -1,12 +1,14 @@
 import Link from "next/link";
+import { BoxEssay } from "@/features/writing/box-essay";
 import { BoxFigure } from "@/features/writing/box-figure";
 import { readTime } from "@/features/writing/read-time";
 import { ScalingQ3 } from "@/features/writing/scaling-q3/scaling-q3";
 import type { Post } from "@/lib/content";
 
-// Posts with figures, tables or links are written as components instead of plain paragraphs.
+// Posts with figures, tables, links or asides are written as components instead of plain paragraphs.
 const richBodies: Record<string, () => React.ReactNode> = {
   "scaling-q3-activations": ScalingQ3,
+  "the-box-with-no-walls": BoxEssay,
 };
 
 export function PostView({ post }: { post: Post }) {

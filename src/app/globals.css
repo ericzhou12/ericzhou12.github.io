@@ -329,6 +329,46 @@
   overflow-x: auto;
 }
 
+.post-body {
+  position: relative;
+}
+
+.sidenote-ref {
+  color: var(--muted);
+  cursor: default;
+}
+
+.sidenote-body {
+  display: block;
+  margin: 0.75rem 0;
+  border-left: 1px solid var(--line);
+  padding-left: 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* With no top set, the note keeps the vertical position of its marker's line. */
+@media (min-width: 72rem) {
+  .sidenote-body {
+    position: absolute;
+    left: calc(100% + 2rem);
+    width: 13rem;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    opacity: 0.5;
+    transition:
+      opacity 0.2s,
+      color 0.2s;
+  }
+
+  .sidenote:hover .sidenote-body {
+    opacity: 1;
+    color: var(--fg);
+  }
+}
+
 .post-body table {
   width: 100%;
   border-collapse: collapse;

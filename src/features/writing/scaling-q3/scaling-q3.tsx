@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image, { type StaticImageData } from "next/image";
+import { Aside } from "@/features/writing/aside";
 import fig1 from "./fig1.png";
 import fig2 from "./fig2.png";
 import fig3 from "./fig3.png";
@@ -57,7 +58,7 @@ export function ScalingQ3() {
       <Fig src={fig6} n={6}>Activation size scaling on 200 GSM8K problems, seed 1. Shaded: 95% confidence interval.</Fig>
 
       <h3>Probing for propensity</h3>
-      <p>Probing for the probability of tokens that indicate a continuation in CoT, i.e. "Wait", "But", etc. can give an empirical representation for Q3 activation scaling on the urge to end or continue thinking for a given problem. A subset of these types of thinking tokens* is measured for the propensity of the edited model to continue thinking. Likewise, the token for the beginning of the final answer block is used to measure the propensity to end thinking. The probe feeds the saved CoT of the intact model for the responses through the edited models in order to read the next-token probabilities at every position. By summing the probabilities of reopening reasoning and ending thinking along the CoT of the intact model read through the respective edited models' lenses, the expected value of each can be derived. Since the CoT is from the intact model, any changes in those expected values come from the edited model itself. A caveat here though is that the intact model has a very small "urge to end" at all points but second-guesses itself ~16 times per CoT, therefore the "urge to continue thinking" is much more stable.</p>
+      <p>Probing for the probability of tokens that indicate a continuation in CoT, i.e. "Wait", "But", etc. can give an empirical representation for Q3 activation scaling on the urge to end or continue thinking for a given problem. A subset of these types of thinking tokens<Aside n={1}>"Wait", "But", "Alternatively", "Hmm", "Maybe", "maybe", "check", "verify", "confirm"</Aside> is measured for the propensity of the edited model to continue thinking. Likewise, the token for the beginning of the final answer block is used to measure the propensity to end thinking. The probe feeds the saved CoT of the intact model for the responses through the edited models in order to read the next-token probabilities at every position. By summing the probabilities of reopening reasoning and ending thinking along the CoT of the intact model read through the respective edited models' lenses, the expected value of each can be derived. Since the CoT is from the intact model, any changes in those expected values come from the edited model itself. A caveat here though is that the intact model has a very small "urge to end" at all points but second-guesses itself ~16 times per CoT, therefore the "urge to continue thinking" is much more stable.</p>
       <Fig src={fig7} n={7}><strong>Urge to end and urge to continue thinking under activation scaling</strong> on two separate sets of traces. Lines = mean ratio to the intact model; shaded = 95% confidence interval.</Fig>
       <p>The difference between Q4 and Q3 activations is best shown here, with divergent behaviors in the propensity to end thinking on scaled activations. In their behaviors for continuation of thinking, Q4 and Q3 activations seem to follow the same curve up until hitting the intact baseline where Q4 hits a sort of floor at the baseline with the urge to continue while Q3 continues to decline. This reflects earlier behavior on GSM8K where Q4 seems to follow a similar trajectory as Q3 but seems to have less drastic swings towards longer/shorter CoT.</p>
 
@@ -82,7 +83,6 @@ export function ScalingQ3() {
         </table>
       </div>
       <p className="post-note">Each ran on 200 GSM8K problems, seed 1</p>
-      <p className="post-note">*"Wait", "But", "Alternatively", "Hmm", "Maybe", "maybe", "check", "verify", "confirm"</p>
 
       <h2>Limitations, Discussion, &amp; Future Work</h2>
       <p>Due to limitations in compute, these tests were only ran on a smaller Qwen3-1.7B model which has much higher neuron density than the sparsified MoE Qwen3.6-35B-A3B model the original Goodfire experiments were run on. Additionally, because of the token cap at 4096, some longer CoT reasoning runs may have lower accuracies than reality and just never finished thinking. Higher sparsity in larger models most likely also has a significant impact on the behavior of Q3 and Q4 activations.</p>
